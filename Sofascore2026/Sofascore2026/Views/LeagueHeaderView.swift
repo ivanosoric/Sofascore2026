@@ -14,6 +14,13 @@ final class LeagueHeaderView: BaseView {
         leagueLabel.text = viewModel.leagueName
         logoImageView.setImage(from: viewModel.logoURL)
     }
+
+    func prepareForReuse() {
+        logoImageView.cancelImageLoad()
+        logoImageView.image = nil
+        countryLabel.text = nil
+        leagueLabel.text = nil
+    }
     
     override func addViews() {
         addSubview(logoImageView)

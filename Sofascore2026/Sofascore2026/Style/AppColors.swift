@@ -7,4 +7,5 @@ enum AppColors {
     static let secondaryText = UIColor.lightGray
     static let accent = UIColor.red
     static let separator = UIColor.lightGray
+    static let sportSelectorBackground = UIColor.systemBlue
 }
