@@ -1,6 +1,7 @@
+import Foundation
 
-struct LeagueHeaderViewModel{
+struct LeagueHeaderViewModel {
     let countryName: String
     let leagueName: String
-    let logoImageName: String
+    let logoURL: URL?
 }

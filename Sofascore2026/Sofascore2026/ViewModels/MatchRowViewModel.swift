@@ -1,8 +1,7 @@
-
-
 import UIKit
+import Foundation
 
-struct MatchRowViewModel{
+struct MatchRowViewModel {
     let timeText: String
     let statusText: String
     let statusColor: UIColor
@@ -10,8 +9,8 @@ struct MatchRowViewModel{
     let homeTeamName: String
     let awayTeamName: String
     
-    let homeLogoImageName: String
-    let awayLogoImageName: String
+    let homeLogoURL: URL?
+    let awayLogoURL: URL?
     
     let homeTeamScore: String
     let awayTeamScore: String
