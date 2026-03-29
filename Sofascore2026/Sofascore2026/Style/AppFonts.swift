@@ -1,5 +1,3 @@
-
-
 import UIKit
 
 enum AppFonts {
@@ -11,4 +9,10 @@ enum AppFonts {
 
     static let time = UIFont.systemFont(ofSize: 15)
     static let status = UIFont.systemFont(ofSize: 15)
+    
+    static let screenTitle = UIFont.systemFont(ofSize: 22, weight: .bold)
+    static let headerTitle = UIFont.systemFont(ofSize: 24, weight: .bold)
+    static let detailsScore = UIFont.systemFont(ofSize: 32, weight: .bold)
+    static let detailsTeamName = UIFont.systemFont(ofSize: 20, weight: .semibold)
+    static let detailsInfo = UIFont.systemFont(ofSize: 15, weight: .regular)
 }

@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-final class LeagueHeaderTableViewHeaderFooterView: UITableViewHeaderFooterView {
+final class LeagueHeaderFooterView: UITableViewHeaderFooterView {
 
     static let reuseIdentifier = "LeagueHeaderTableViewHeaderFooterView"
 
@@ -19,8 +19,12 @@ final class LeagueHeaderTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     func configure(with viewModel: LeagueHeaderViewModel) {
-        headerView.prepareForReuse()
         headerView.configure(with: viewModel)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        headerView.prepareForReuse()
     }
 
     private func setupView() {

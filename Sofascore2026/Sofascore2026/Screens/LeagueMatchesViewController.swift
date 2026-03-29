@@ -1,10 +1,13 @@
 import UIKit
 import SnapKit
+import SofaAcademic
 
 final class LeagueMatchesViewController: UIViewController {
     
     private let dataLoader = LeagueMatchesDataLoader()
+    private let mapper = LeagueMatchesMapper()
     
+    private let headerView = HomeHeaderView()
     private let sportSelectorView = SportSelectorView()
     private let tableView = UITableView(frame: .zero, style: .plain)
     
@@ -14,7 +17,6 @@ final class LeagueMatchesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = AppColors.background
         setupView()
         setupLayout()
         setupActions()
@@ -22,6 +24,9 @@ final class LeagueMatchesViewController: UIViewController {
     }
     
     private func setupView() {
+        view.backgroundColor = AppColors.headerBackground
+        
+        view.addSubview(headerView)
         view.addSubview(sportSelectorView)
         view.addSubview(tableView)
         
@@ -33,32 +38,38 @@ final class LeagueMatchesViewController: UIViewController {
         )
         
         tableView.register(
-            LeagueHeaderTableViewHeaderFooterView.self,
-            forHeaderFooterViewReuseIdentifier: LeagueHeaderTableViewHeaderFooterView.reuseIdentifier
+            LeagueHeaderFooterView.self,
+            forHeaderFooterViewReuseIdentifier: LeagueHeaderFooterView.reuseIdentifier
         )
         
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = AppColors.background
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 64
         tableView.sectionHeaderTopPadding = 0
         tableView.alwaysBounceVertical = true
+        tableView.tableFooterView = UIView()
     }
     
     private func setupLayout() {
-        sportSelectorView.snp.makeConstraints {
+        headerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(56)
+        }
+        
+        sportSelectorView.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(72)
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(sportSelectorView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(sportSelectorView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -67,11 +78,28 @@ final class LeagueMatchesViewController: UIViewController {
             self?.selectedSport = sport
             self?.loadData()
         }
+        
+        headerView.onSettingsTap = { [weak self] in
+            self?.openSettings()
+        }
     }
     
     private func loadData() {
-        sections = dataLoader.makeSections(for: selectedSport)
+        let events = dataLoader.fetchEvents(for: selectedSport)
+        sections = mapper.makeSections(from: events)
         tableView.reloadData()
+    }
+    
+    private func openSettings() {
+        let settingsViewController = SettingsViewController()
+        let navigationController = UINavigationController(rootViewController: settingsViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+    }
+    
+    private func openEventDetails(for viewModel: EventDetailsViewModel) {
+        let viewController = EventDetailsViewController(viewModel: viewModel)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -106,8 +134,8 @@ extension LeagueMatchesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: LeagueHeaderTableViewHeaderFooterView.reuseIdentifier
-        ) as? LeagueHeaderTableViewHeaderFooterView else {
+            withIdentifier: LeagueHeaderFooterView.reuseIdentifier
+        ) as? LeagueHeaderFooterView else {
             return nil
         }
         
@@ -118,5 +146,12 @@ extension LeagueMatchesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         40
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let viewModel = sections[indexPath.section].matchRowViewModels[indexPath.row]
+        openEventDetails(for: viewModel.eventDetailsViewModel)
     }
 }

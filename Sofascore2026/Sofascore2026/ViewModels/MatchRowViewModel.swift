@@ -15,4 +15,6 @@ struct MatchRowViewModel {
     let homeTeamScore: String
     let awayTeamScore: String
     let scoreColor: UIColor
+    
+    let eventDetailsViewModel: EventDetailsViewModel
 }
