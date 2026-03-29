@@ -4,45 +4,75 @@ import SofaAcademic
 
 final class LeagueMatchesDataLoader {
     
-    private let dataSource: Homework2DataSource
+    private let dataSource: Homework3DataSource
     
-    init(dataSource: Homework2DataSource = Homework2DataSource()) {
+    init(dataSource: Homework3DataSource = Homework3DataSource()) {
         self.dataSource = dataSource
     }
     
-    func makeLeagueHeaderViewModel() -> LeagueHeaderViewModel {
-        let league = dataSource.laLigaLeague()
-        
-        return LeagueHeaderViewModel(
-            countryName: league.country?.name ?? "",
-            leagueName: league.name,
-            logoURL: makeURL(from: league.logoUrl)
-        )
-    }
-    
-    func makeMatchRowViewModels() -> [MatchRowViewModel] {
-        let events = dataSource
-            .laLigaEvents()
+    func makeSections(for sport: SportType) -> [LeagueSectionViewModel] {
+        let events = events(for: sport)
             .sorted { $0.startTimestamp < $1.startTimestamp }
         
-        return events.map { event in
-            MatchRowViewModel(
-                timeText: formattedTime(from: event.startTimestamp),
-                statusText: statusText(for: event.status),
-                statusColor: statusColor(for: event.status),
-                homeTeamName: event.homeTeam.name,
-                awayTeamName: event.awayTeam.name,
-                homeLogoURL: makeURL(from: event.homeTeam.logoUrl),
-                awayLogoURL: makeURL(from: event.awayTeam.logoUrl),
-                homeTeamScore: scoreText(from: event.homeScore),
-                awayTeamScore: scoreText(from: event.awayScore),
-                scoreColor: scoreColor(for: event.status)
+        let groupedEvents = Dictionary(grouping: events) { event in
+            event.league?.id ?? -1
+        }
+        
+        let sections = groupedEvents.compactMap { _, leagueEvents -> LeagueSectionViewModel? in
+            guard
+                let firstEvent = leagueEvents.first,
+                let league = firstEvent.league
+            else {
+                return nil
+            }
+            
+            let sortedLeagueEvents = leagueEvents.sorted { $0.startTimestamp < $1.startTimestamp }
+            
+            let headerViewModel = LeagueHeaderViewModel(
+                countryName: league.country?.name ?? "",
+                leagueName: league.name,
+                logoURL: makeURL(from: league.logoUrl)
             )
+            
+            let rowViewModels = sortedLeagueEvents.map { event in
+                MatchRowViewModel(
+                    timeText: formattedTime(from: event.startTimestamp),
+                    statusText: statusText(for: event.status),
+                    statusColor: statusColor(for: event.status),
+                    homeTeamName: event.homeTeam.name,
+                    awayTeamName: event.awayTeam.name,
+                    homeLogoURL: makeURL(from: event.homeTeam.logoUrl),
+                    awayLogoURL: makeURL(from: event.awayTeam.logoUrl),
+                    homeTeamScore: scoreText(from: event.homeScore),
+                    awayTeamScore: scoreText(from: event.awayScore),
+                    scoreColor: scoreColor(for: event.status)
+                )
+            }
+            
+            return LeagueSectionViewModel(
+                headerViewModel: headerViewModel,
+                matchRowViewModels: rowViewModels
+            )
+        }
+        
+        return sections.sorted {
+            $0.headerViewModel.leagueName < $1.headerViewModel.leagueName
         }
     }
 }
 
 private extension LeagueMatchesDataLoader {
+    
+    func events(for sport: SportType) -> [Event] {
+        switch sport {
+        case .football:
+            return dataSource.events()
+        case .basketball:
+            return dataSource.events()
+        case .americanFootball:
+            return dataSource.events()
+        }
+    }
     
     func makeURL(from string: String?) -> URL? {
         guard let string else { return nil }

@@ -35,6 +35,21 @@ final class MatchRowView: BaseView {
         homeLogoImageView.setImage(from: viewModel.homeLogoURL)
         awayLogoImageView.setImage(from: viewModel.awayLogoURL)
     }
+
+    func prepareForReuse() {
+        homeLogoImageView.cancelImageLoad()
+        awayLogoImageView.cancelImageLoad()
+
+        homeLogoImageView.image = nil
+        awayLogoImageView.image = nil
+
+        timeLabel.text = nil
+        statusLabel.text = nil
+        homeTeamLabel.text = nil
+        awayTeamLabel.text = nil
+        homeScoreLabel.text = nil
+        awayScoreLabel.text = nil
+    }
     
     override func addViews() {
         addSubview(timeLabel)

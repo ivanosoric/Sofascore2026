@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D22DC4A22F707C05007FD70D /* SofaAcademic in Frameworks */ = {isa = PBXBuildFile; productRef = D22DC4A12F707C05007FD70D /* SofaAcademic */; };
 		D29AC42C2F5B31FC00FA6E83 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D29AC42B2F5B31FC00FA6E83 /* SnapKit */; };
-		D2E7D2292F66BE0C009AA510 /* SofaAcademic in Frameworks */ = {isa = PBXBuildFile; productRef = D2E7D2282F66BE0C009AA510 /* SofaAcademic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2E7D2292F66BE0C009AA510 /* SofaAcademic in Frameworks */,
+				D22DC4A22F707C05007FD70D /* SofaAcademic in Frameworks */,
 				D29AC42C2F5B31FC00FA6E83 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,7 +78,7 @@
 			name = Sofascore2026;
 			packageProductDependencies = (
 				D29AC42B2F5B31FC00FA6E83 /* SnapKit */,
-				D2E7D2282F66BE0C009AA510 /* SofaAcademic */,
+				D22DC4A12F707C05007FD70D /* SofaAcademic */,
 			);
 			productName = Sofascore2026;
 			productReference = D27D8D792F66DE350013A807 /* Sofascore2026.app */;
@@ -110,7 +110,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D29AC42A2F5B31FC00FA6E83 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				D2E7D2272F66BE0C009AA510 /* XCRemoteSwiftPackageReference "academy" */,
+				D22DC4A02F707C05007FD70D /* XCRemoteSwiftPackageReference "academy" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D295AB2C2F5764600077CEBA;
@@ -348,6 +348,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D22DC4A02F707C05007FD70D /* XCRemoteSwiftPackageReference "academy" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sofascore/academy.git";
+			requirement = {
+				branch = hw3;
+				kind = branch;
+			};
+		};
 		D29AC42A2F5B31FC00FA6E83 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -356,26 +364,18 @@
 				minimumVersion = 5.7.1;
 			};
 		};
-		D2E7D2272F66BE0C009AA510 /* XCRemoteSwiftPackageReference "academy" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sofascore/academy.git";
-			requirement = {
-				branch = hw2;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D22DC4A12F707C05007FD70D /* SofaAcademic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D22DC4A02F707C05007FD70D /* XCRemoteSwiftPackageReference "academy" */;
+			productName = SofaAcademic;
+		};
 		D29AC42B2F5B31FC00FA6E83 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D29AC42A2F5B31FC00FA6E83 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		D2E7D2282F66BE0C009AA510 /* SofaAcademic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D2E7D2272F66BE0C009AA510 /* XCRemoteSwiftPackageReference "academy" */;
-			productName = SofaAcademic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
