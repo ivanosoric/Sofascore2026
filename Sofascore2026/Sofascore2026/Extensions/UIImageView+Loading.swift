@@ -24,9 +24,10 @@ extension UIImageView {
         guard let url else { return }
 
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-            guard let self else { return }
-            guard self.currentImageURL == url else { return }
-            guard let data, let image = UIImage(data: data) else { return }
+            guard let self = self,
+                  self.currentImageURL == url,
+                  let data = data,
+                  let image = UIImage(data: data) else { return }
 
             DispatchQueue.main.async {
                 guard self.currentImageURL == url else { return }

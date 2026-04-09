@@ -1,4 +1,3 @@
-
 import UIKit
 
 enum AppColors {
@@ -8,4 +7,8 @@ enum AppColors {
     static let accent = UIColor.red
     static let separator = UIColor.lightGray
     static let sportSelectorBackground = UIColor.systemBlue
+    
+    static let headerBackground = UIColor.systemBlue
+    static let headerText = UIColor.white
+    static let cardBackground = UIColor.white
 }

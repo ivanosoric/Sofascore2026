@@ -19,7 +19,6 @@ final class MatchRowTableViewCell: UITableViewCell {
     }
 
     func configure(with viewModel: MatchRowViewModel) {
-        rowView.prepareForReuse()
         rowView.configure(with: viewModel)
     }
 
