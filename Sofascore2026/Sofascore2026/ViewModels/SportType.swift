@@ -26,4 +26,15 @@ enum SportType: Int, CaseIterable {
             return "football"
         }
     }
+    
+    var slug: String {
+        switch self {
+        case .football:
+            return "football"
+        case .basketball:
+            return "basketball"
+        case .americanFootball:
+            return "am-football"
+        }
+    }
 }

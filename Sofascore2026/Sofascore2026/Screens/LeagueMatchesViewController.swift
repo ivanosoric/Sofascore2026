@@ -85,9 +85,12 @@ final class LeagueMatchesViewController: UIViewController {
     }
     
     private func loadData() {
-        let events = dataLoader.fetchEvents(for: selectedSport)
-        sections = mapper.makeSections(from: events)
-        tableView.reloadData()
+        dataLoader.fetchEvents(for: selectedSport) { [weak self] events in
+            guard let self else { return }
+            
+            self.sections = self.mapper.makeSections(from: events)
+            self.tableView.reloadData()
+        }
     }
     
     private func openSettings() {
